@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>212 Project 1 – Circular Queue</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  
+  <style type="text/css">
+  body 
+  {
+  	font-family:Gill Sans MT;
+  	color:#657b83;
+  	background-color:#fdf6e3;
+  	max-width:500pt;
+  	padding-left:25pt;
+  	padding-right:25pt;
+  	padding-bottom:20pt;
+  	margin:0 auto 0 auto;
+  	text-align:justify;
+  }
+  a:link {color:#6c71c4;}
+  a:visited {color:#859900;}
+  a:hover {color:#268bd2;}
+  a:active {color:#d33682;}
+  h1{}
+  h2{border-style:solid;
+   text-align:center;
+  }
+  h3
+  {
+  	margin-bottom:2pt;
+  	/*color:#268bd2;*/
+  	font-weight:bold;
+  }
+  strong
+  {
+  	color:#d33682;
+  	font-weight:bolder;
+  }
+  em
+  {
+  	color:#268bd2;
+  	font-style:italic;
+  	font-weight:bolder;
+  }
+  code
+  {
+      background-color:#eee8d5;
+      color:#586e75;
+  }
+  table.sourceCode
+  {
+      background-color:#eee8d5;
+      color:#586e75;
+  }
+  pre.sourceCode
+  {
+      background-color:#eee8d5;
+      color:#586e75;
+  }
+  .math
+  {
+      /*background-color:#eee8d5;*/
+      color:#586e75;
+      font-family:Times New Roman;
+  }
+  /*use a contextual style to undo the blue-ness:*/
+  .math em
+  {
+      color:#586e75;
+  	font-weight:normal;
+  }
+  .descrip
+  {
+  	max-width:500pt;
+  	padding-left:25pt;
+  	text-align:justify;
+  }
+  .descripbig
+  {
+  	max-width:575pt;
+  	padding-left:0pt;
+  	text-align:justify;
+  }
+  .emph
+  {
+  	color:#d33682;
+  	font-weight:bolder;
+  }
+  .litem
+  {
+  	color:#268bd2;
+  	font-style:italic;
+  	font-weight:bolder;
+  }
+  .hl
+  {
+  	color:#268bd2;
+  	font-style:italic;
+  }
+  .required
+  {
+  	color:#268bd2;
+  	font-style:italic;
+  	font-weight:bold;
+  }
+  .inputbox
+  {
+  	background-color:#eee8d5;
+  	color:#586e75;
+  	font-family:Gill Sans MT;
+  	font-weight:bolder;
+  }
+  </style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">212 Project 1 – Circular Queue</h1>
+</div>
+<h2 id="due-friday-february-12th-1159pm"><em>Due:</em> Friday, February 12th @ 11:59pm</h2>
+<h2 id="synopsis">Synopsis</h2>
+<p>In this assignment, you will implement a queue using a circular array (a partially-filled, fixed-length array).</p>
+<h2 id="important-notes-on-grading">Important Notes on Grading</h2>
+<p>I would like you all to collaborate on these projects in small teams. Teams should have 3-4 people. Details:</p>
+<ul>
+<li>Everyone should sign up on [bitbucket][bitbucket].</li>
+<li>Designate one member of your team to be the leader / repository owner. (They’ll set up the repository and grant access to the rest of the team.)</li>
+<li>Each team member should follow the instructions from the git tutorial on “pushing to your own remote” with the url of the remote <code>mine</code> set to that of your team’s leader.</li>
+<li>Team leaders – please send me (email or piazza) the url of your repository, and a list of the team’s members.</li>
+<li>I’ll grade the projects based on whether or not they pass the automated tests, and whether or not each team member is contributing (as evidenced by the commit logs).</li>
+</ul>
+<h2 id="details">Details</h2>
+<p>Your job is to finish the partial implementation by writing definitions for the following functions in <code>queue.cpp</code>:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">unsigned</span> <span class="dt">long</span> getBack();
+<span class="dt">unsigned</span> <span class="dt">long</span> getSize();
+<span class="dt">bool</span> isFull();
+<span class="dt">bool</span> push(<span class="dt">unsigned</span> <span class="dt">long</span>);
+<span class="dt">unsigned</span> <span class="dt">long</span> pop();
+<span class="dt">void</span> erase();</code></pre></div>
+<p>Remember: you are supposed to implement the queue via a <strong>circular array</strong>. Here are some pictures that might help you. Suppose our queue is initially empty:</p>
+<pre><code>-------------
+| | | | | | |
+-------------
+ ^
+ front==next back</code></pre>
+<p>Now suppose we push 0,1,2,3:</p>
+<pre><code>-------------
+|0|1|2|3| | |
+-------------
+ ^       ^next back
+ front</code></pre>
+<p>Then a call to pop leaves us with:</p>
+<pre><code>-------------
+| |1|2|3| | |
+-------------
+   ^     ^next back
+   front</code></pre>
+<p>(Note that the 0 would still be in the array, but I’ve drawn it blank to illustrate it is no longer considered part of the queue’s contents). Now say we do this:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">for</span> (i=<span class="dv">4</span>; i&lt;<span class="dv">7</span>; i++) {
+    Q.push(i);
+    Q.pop();
+}</code></pre></div>
+<p>Then we’ll have the following array:</p>
+<pre><code>-------------
+|6| | | |4|5|
+-------------
+         ^front
+   ^next back</code></pre>
+<p>One more hint: use <a href="https://en.wikipedia.org/wiki/Modular_arithmetic">modular arithmetic</a>. When you increment the front or back indexes, <em>do it modulo the array size</em>. Recall the friendly <code>%</code> operator that you have in C++. Also note that you can easily do subtraction in modular fashion: if <span class="math inline"><em>a</em>, <em>b</em> ∈ {0, …, 5}</span> then you can compute <span class="math inline"><em>a</em> − <em>b</em> mod 6</span> as <span class="math inline">(<em>a</em> + 6 − <em>b</em>) mod 6</span>. In C syntax: <code>(a+6-b)%6</code>. This will ensure you still wind up in the range <span class="math inline">{0, …, 5}</span> (just doing <code>(a-b)%6</code> may leave you with negative integers in C).</p>
+<h3 id="compiling-stuff">Compiling stuff</h3>
+<p>A makefile has been provided. Running <code>make</code> should produce two programs, <code>main</code>, and <code>check</code>, which are built from <code>main.cpp</code> and <code>check.cpp</code> respectively. The former is for simple debugging – you can manually modify and print the contents of the structure. The <code>check</code> program runs some automated, randomized tests.</p>
+<h3 id="testing">Testing</h3>
+<p><code>check</code> stores the output of tests in a file called <code>output</code>, and then compares that with the output from my version (which can be found in <code>soutput</code>). So run <code>./check</code> and see what happens. Ideally, it will report that you are awesome and all the tests passed. If that didn’t happen, then read on…</p>
+<h3 id="debugging">Debugging</h3>
+<p>You can <code>diff {,s}output</code> and maybe something will spring to mind, but it is unlikely. You’ll probably want to follow these steps:</p>
+<ol style="list-style-type: decimal">
+<li>Run <code>make debug</code> (run <code>make clean</code> before doing this the first time). This will add debug symbols to the binaries, and enable lots of messages.</li>
+<li><p>Run <code>./check</code> again. <em>Note:</em> unless you are pretty handy with your terminal, you will likely want to redirect <code>stderr</code> to a file for convenience, maybe like this:</p>
+<pre><code>./check 2&gt; /tmp/212debugging</code></pre></li>
+<li><p>The output of <code>./check</code> will now contain tons of (possibly) useful information. In particular, it will tell you what the check program is doing, and print the contents of your structure after each operation. You should be able to tell where things are going wrong.</p></li>
+</ol>
+<p>Also keep in mind that you don’t have to submit <code>check.cpp</code>, so you can modify it to print out more information. Just be careful not to throw off the random number generator sequence by invoking <code>rnd()</code> more times, and don’t write any extra stuff to the <code>output</code> file, of course.</p>
+<!--  links  -->
+</body>
+</html>
