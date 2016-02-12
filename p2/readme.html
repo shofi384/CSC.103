@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>212 Project 2 – Sorted Linked List</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  
+  <style type="text/css">
+  body 
+  {
+  	font-family:Gill Sans MT;
+  	color:#657b83;
+  	background-color:#fdf6e3;
+  	max-width:500pt;
+  	padding-left:25pt;
+  	padding-right:25pt;
+  	padding-bottom:20pt;
+  	margin:0 auto 0 auto;
+  	text-align:justify;
+  }
+  a:link {color:#6c71c4;}
+  a:visited {color:#859900;}
+  a:hover {color:#268bd2;}
+  a:active {color:#d33682;}
+  h1{}
+  h2{border-style:solid;
+   text-align:center;
+  }
+  h3
+  {
+  	margin-bottom:2pt;
+  	/*color:#268bd2;*/
+  	font-weight:bold;
+  }
+  strong
+  {
+  	color:#d33682;
+  	font-weight:bolder;
+  }
+  em
+  {
+  	color:#268bd2;
+  	font-style:italic;
+  	font-weight:bolder;
+  }
+  code
+  {
+      background-color:#eee8d5;
+      color:#586e75;
+  }
+  table.sourceCode
+  {
+      background-color:#eee8d5;
+      color:#586e75;
+  }
+  pre.sourceCode
+  {
+      background-color:#eee8d5;
+      color:#586e75;
+  }
+  .math
+  {
+      /*background-color:#eee8d5;*/
+      color:#586e75;
+      font-family:Times New Roman;
+  }
+  /*use a contextual style to undo the blue-ness:*/
+  .math em
+  {
+      color:#586e75;
+  	font-weight:normal;
+  }
+  .descrip
+  {
+  	max-width:500pt;
+  	padding-left:25pt;
+  	text-align:justify;
+  }
+  .descripbig
+  {
+  	max-width:575pt;
+  	padding-left:0pt;
+  	text-align:justify;
+  }
+  .emph
+  {
+  	color:#d33682;
+  	font-weight:bolder;
+  }
+  .litem
+  {
+  	color:#268bd2;
+  	font-style:italic;
+  	font-weight:bolder;
+  }
+  .hl
+  {
+  	color:#268bd2;
+  	font-style:italic;
+  }
+  .required
+  {
+  	color:#268bd2;
+  	font-style:italic;
+  	font-weight:bold;
+  }
+  .inputbox
+  {
+  	background-color:#eee8d5;
+  	color:#586e75;
+  	font-family:Gill Sans MT;
+  	font-weight:bolder;
+  }
+  </style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">212 Project 2 – Sorted Linked List</h1>
+</div>
+<h2 id="due-friday-february-27th-1159pm"><em>Due:</em> Friday, February 27th @ 11:59pm</h2>
+<h2 id="synopsis">Synopsis</h2>
+<p>In this assignment, you are asked to complete the implementation of a linked list that <em>keeps its elements in order</em> (i.e., traversing the list from the root to the end will visit the elements in increasing order).</p>
+<h2 id="important-notes-on-grading">Important Notes on Grading</h2>
+<p>I would like you all to collaborate on these projects in small teams. Teams <strong>must have 3 – 4 people</strong>. Details:</p>
+<ul>
+<li>Everyone should sign up on [bitbucket][bitbucket].</li>
+<li>Designate one member of your team to be the leader / repository owner. (They’ll set up the repository and grant access to the rest of the team.)</li>
+<li>Commits from the team members can be incorporated in one of two ways:
+<ol style="list-style-type: decimal">
+<li>The team leader can grant write access to the team members who can follow the instructions on <a href="http://www-cs.ccny.cuny.edu/~wes/CSC212S16/scm.html#own-remote">pushing to your own remote</a> with the url of the remote <code>mine</code> set to that of your team’s leader.</li>
+<li>Use bitbucket’s fork + pull request features.</li>
+</ol></li>
+<li>Team leaders – please edit (or start, if it doesn’t exist) a piazza post containing the url of your repository, and a list of the team’s members.</li>
+<li>I’ll grade the projects based on whether or not they pass the automated tests, and whether or not each team member is contributing (as evidenced by the commit logs).</li>
+</ul>
+<h2 id="details">Details</h2>
+<p>Your job is to finish the partial implementation given in <code>list.cpp</code>. Each place you need to do something should be marked with <code>TODO</code>, so just search for that.</p>
+<p>Most functions are pretty self-explanatory, and there’s documentation in comments in the header file. However, there are some subtleties in the way that <code>intersect</code> and <code>merge</code> are intended to work. The idea is that the intersection is defined to be the <em>maximal multiset</em> that would still be contained in both lists. (Here “containment” of a multiset <span class="math inline"><em>X</em></span> in a multiset <span class="math inline"><em>Y</em></span> means that for all <span class="math inline"><em>x</em></span>, the number of occurrences of <span class="math inline"><em>x</em></span> in <span class="math inline"><em>X</em></span> is less than or equal to the number of occurrences of <span class="math inline"><em>x</em></span> in <span class="math inline"><em>Y</em></span>.) However, merge is not written to be the dual concept of a minimal upper bound. Rather, calling <code>L3.merge(L1,L2)</code> should set <code>L3</code> such that for all x, (#of x’s in L3) == (#of x’s in L1) + (#of x’s in L2). For example, suppose that</p>
+<pre><code>L1 = 5 5 6 7 8 8
+L2 = 5 6 7 8 8 8 9</code></pre>
+<p>Then</p>
+<pre><code>intersection(L1,L2) = 5 6 7 8 8
+merge(L1,L2)        = 5 5 5 6 6 7 7 8 8 8 8 8 9</code></pre>
+<p><strong>IMPORTANT:</strong> I want your implementations of <code>merge</code> and <code>intersection</code> to work in <strong>linear time</strong>. Somewhere in the comments of your code, give a brief explanation of why your algorithm runs in <span class="math inline"><em>O</em>(<em>n</em>)</span> time (<span class="math inline"><em>n</em></span> is the sum of the lengths of the two lists).</p>
+<h3 id="compiling-testing-debugging">Compiling, testing, debugging</h3>
+<p>The setup is very much the same as for the first project; review the instructions there if necessary. Quick reminder – once you’re feeling confident (or at least hopeful) that things might work:</p>
+<ol style="list-style-type: decimal">
+<li>Run <code>make &amp;&amp; ./check</code></li>
+<li>For debugging, run <code>make clean &amp;&amp; make debug</code> and then <code>./check</code> again</li>
+<li>You can add your own debugging code to <code>check.cpp</code>, but be careful not to throw off the tests.</li>
+</ol>
+<!--  links  -->
+</body>
+</html>
