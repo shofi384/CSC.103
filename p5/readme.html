@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>212 Project 5 – Huffman Coding</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  
+  <style type="text/css">
+  body 
+  {
+  	font-family:Gill Sans MT;
+  	color:#657b83;
+  	background-color:#fdf6e3;
+  	max-width:500pt;
+  	padding-left:25pt;
+  	padding-right:25pt;
+  	padding-bottom:20pt;
+  	margin:0 auto 0 auto;
+  	text-align:justify;
+  }
+  a:link {color:#6c71c4;}
+  a:visited {color:#859900;}
+  a:hover {color:#268bd2;}
+  a:active {color:#d33682;}
+  h1{}
+  h2{border-style:solid;
+   text-align:center;
+  }
+  h3
+  {
+  	margin-bottom:2pt;
+  	/*color:#268bd2;*/
+  	font-weight:bold;
+  }
+  strong
+  {
+  	color:#d33682;
+  	font-weight:bolder;
+  }
+  em
+  {
+  	color:#268bd2;
+  	font-style:italic;
+  	font-weight:bolder;
+  }
+  code
+  {
+      background-color:#eee8d5;
+      color:#586e75;
+  }
+  table.sourceCode
+  {
+      background-color:#eee8d5;
+      color:#586e75;
+  }
+  pre.sourceCode
+  {
+      background-color:#eee8d5;
+      color:#586e75;
+  }
+  .math
+  {
+      /*background-color:#eee8d5;*/
+      color:#586e75;
+      font-family:Times New Roman;
+  }
+  /*use a contextual style to undo the blue-ness:*/
+  .math em
+  {
+      color:#586e75;
+  	font-weight:normal;
+  }
+  .descrip
+  {
+  	max-width:500pt;
+  	padding-left:25pt;
+  	text-align:justify;
+  }
+  .descripbig
+  {
+  	max-width:575pt;
+  	padding-left:0pt;
+  	text-align:justify;
+  }
+  .emph
+  {
+  	color:#d33682;
+  	font-weight:bolder;
+  }
+  .litem
+  {
+  	color:#268bd2;
+  	font-style:italic;
+  	font-weight:bolder;
+  }
+  .hl
+  {
+  	color:#268bd2;
+  	font-style:italic;
+  }
+  .required
+  {
+  	color:#268bd2;
+  	font-style:italic;
+  	font-weight:bold;
+  }
+  .inputbox
+  {
+  	background-color:#eee8d5;
+  	color:#586e75;
+  	font-family:Gill Sans MT;
+  	font-weight:bolder;
+  }
+  </style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">212 Project 5 – Huffman Coding</h1>
+</div>
+<h2 id="due-friday-april-15th-1159pm"><em>Due:</em> Friday, April 15th @ 11:59pm</h2>
+<h2 id="synopsis">Synopsis</h2>
+<p>We continue our study of binary trees. We will explore some related data structures, as well as an interesting application. Specifically, you will learn about the following:</p>
+<ul>
+<li>Heaps</li>
+<li>Priority queues</li>
+<li>Huffman coding</li>
+</ul>
+<p>And on the C++ front, you’ll learn how to write template classes, like the ones you often use from the STL.</p>
+<h2 id="important-notes-on-grading">Important Notes on Grading</h2>
+<p>I would like you all to collaborate on these projects in small teams. Teams <strong>must have 3 – 4 people</strong>. As usual:</p>
+<ul>
+<li>Everyone should be signed up on [bitbucket][bitbucket].</li>
+<li>Designate one member of your team to be the leader / repository owner. (They’ll set up the repository and grant access to the rest of the team.)</li>
+<li>Commits from the team members can be incorporated in one of two ways:
+<ol style="list-style-type: decimal">
+<li>Follow the instructions on <a href="http://www-cs.ccny.cuny.edu/~wes/CSC212S16/scm.html#collaborate">collaborating with git</a>. (Team leaders: don’t forget to give other members write access to the repository.)</li>
+<li>Use <a href="https://www.atlassian.com/git/tutorials/making-a-pull-request/example">bitbucket’s fork + pull request</a> features.</li>
+</ol>
+<strong>NOTE:</strong> Either way you do it, you should follow the guidelines given above about <a href="http://www-cs.ccny.cuny.edu/~wes/CSC212S16/scm.html#collaborate">avoiding merge conflicts</a>.</li>
+<li>Team leaders – please <em>edit</em> (or start, if it doesn’t exist) a piazza post containing the url of your repository, and a list of the team’s members.</li>
+<li>I’ll grade the projects based on whether or not they pass the automated tests, and whether or not each team member is contributing (as evidenced by the commit logs).</li>
+</ul>
+<h2 id="details">Details</h2>
+<h3 id="heap-representation">Heap representation</h3>
+<p>As discussed in lecture, we will store our heaps in an array. Think of a complete binary tree with the nodes labeled in ascending order as you read from top to bottom and left to right, and with the root labeled 0. Recall that with this indexing system you can get the left child by multiplying by two and adding 1. There’s only one tricky point: we won’t re-arrange the data in the original array, but instead have another array of pointers into it which we use for the heap. The reasoning for this is explained in the <a href="#broad-strokes">hints section</a>.</p>
+<p>For the details of the Huffman code, refer to the lecture notes, and to <a href="https://en.wikipedia.org/wiki/Huffman_coding">wikipedia</a>.</p>
+<p>All the functions you have to write are labeled with <code>TODO</code> as usual. As always, the skeleton code should compile.</p>
+<h3 id="compiling-testing-debugging">Compiling, testing, debugging</h3>
+<p>Run the test script <code>test.sh</code> and then diff the result with the output from my program (if you have vim, try <code>vimdiff {,s}output</code> to get a side by side diff). <em>Note:</em> for a given data set, the Huffman code is <strong>not</strong> unique. Your output not being identical to mine doesn’t mean that it’s incorrect. However, if the initial array fed into <code>buildHeap</code> is the same as mine, then most likely the resulting code will be the same. In my program, the initial array is sorted (ascending) by the symbol. (This will happen naturally if you make a frequency table from a <code>map</code> and iterate through it; see the <a href="#broad-strokes">hints section</a> below.)</p>
+<p>If you have <a href="http://www.graphviz.org/Download.php">graphviz</a>, you can also take a look at the Huffman tree representing the code using the <code>--svg</code> option. For example, if you ran</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">echo</span> aaasswwoaoslbbwoasaldkwdsdfelwkwlasdseaslk <span class="kw">|</span> <span class="kw">./main</span> --svg /tmp/tree.svg</code></pre></div>
+<p>then <code>/tmp/tree.svg</code> would contain something like this:</p>
+<p><img src="tree.svg" alt="htree" /><br />
+</p>
+<p>Note that the leaf nodes have the symbol on the left and the frequency on the right, and that each internal node is labeled with the weight of the subtree.</p>
+<h3 id="hints-and-notes">Hints and notes</h3>
+<h4 id="broad-strokes">Broad strokes</h4>
+<p>Once you have the heap functions done, I would recommend a strategy like this for writing <code>huffmanEncode</code>:</p>
+<ol style="list-style-type: decimal">
+<li>Make a frequency table of the input. This is pretty trivial with the <code>map</code> data structure from the STL.</li>
+<li>Allocate all the nodes in an array – you can do this before building the tree since there will always be fewer than <span class="math inline">2<em>n</em></span> nodes in the tree (make sure you know why!). <em>Note:</em> this is what the <code>nodes</code> parameter in <code>huffmanEncode</code> is for. This way, the caller can easily free the memory via <code>delete [] nodes;</code> rather than a more complicated traversal of the tree.</li>
+<li>This is <strong>important:</strong> rather than making a priority queue out of the array of nodes, <strong>make the queue from a separate vector of node pointers</strong>. Why? Well, each node contains pointers to left and right children. The priority queue operations will of course move the nodes around in memory, and thus invalidate those pointers.</li>
+</ol>
+<h4 id="templates">Templates</h4>
+<p>Since our heap functions are all templates, a priori, we don’t know what datatypes they will store. One important consequence: <em>we might not know how to compare the elements!</em> After all, not every datatype (e.g., our node class) has an <code>operator&lt;</code> prescribing an ordering. Hence, we include an additional template parameter which provides this functionality:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">template</span> &lt;<span class="kw">typename</span> T, <span class="kw">typename</span> L&gt;
+<span class="dt">void</span> heapify(vector&lt;T&gt;&amp; A, size_t i, L lt = less&lt;T&gt;()) {...}</code></pre></div>
+<p>In plain English: <code>L</code> is going to be some datatype which provides a way to compare elements of type <code>T</code>. How does this all work?? Well, <code>L</code> just has to define an <code>bool operator()(T,T)</code> which implements something like “less than”. See the <code>hnComp</code> type in the skeleton code, which compares node pointers by weight. Anyhow, if you have a vector <code>vector&lt;hNode&lt;T&gt;*&gt; V</code> of node pointers, then you can turn that into a heap like this:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">vector&lt;hNode&lt;T&gt;*&gt; V;
+<span class="co">/* fill V... */</span>
+hnComp&lt;T&gt; hnc; <span class="co">/* defines how to compare node pointers */</span>
+buildHeap(V,hnc);</code></pre></div>
+<h2 id="bonus-points">Bonus Points</h2>
+<p>Now that you have fancy template stuff that generates Huffman codes, make use of it. Write an application reads a description of a code and some data, and actually encodes / decodes that data. How well does it perform?</p>
+<h2 id="submission-procedure">Submission Procedure</h2>
+<p>Just make sure your group is listed on Piazza before the deadline.</p>
+<!--  links  -->
+</body>
+</html>
