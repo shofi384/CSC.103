@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>212 Project 6 – Graph Basics</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+  body 
+  {
+  	font-family:Gill Sans MT;
+  	color:#657b83;
+  	background-color:#fdf6e3;
+  	max-width:500pt;
+  	padding-left:25pt;
+  	padding-right:25pt;
+  	padding-bottom:20pt;
+  	margin:0 auto 0 auto;
+  	text-align:justify;
+  }
+  a:link {color:#6c71c4;}
+  a:visited {color:#859900;}
+  a:hover {color:#268bd2;}
+  a:active {color:#d33682;}
+  h1{}
+  h2{border-style:solid;
+   text-align:center;
+  }
+  h3
+  {
+  	margin-bottom:2pt;
+  	/*color:#268bd2;*/
+  	font-weight:bold;
+  }
+  strong
+  {
+  	color:#d33682;
+  	font-weight:bolder;
+  }
+  em
+  {
+  	color:#268bd2;
+  	font-style:italic;
+  	font-weight:bolder;
+  }
+  code
+  {
+      background-color:#eee8d5;
+      color:#586e75;
+  }
+  table.sourceCode
+  {
+      background-color:#eee8d5;
+      color:#586e75;
+  }
+  pre.sourceCode
+  {
+      background-color:#eee8d5;
+      color:#586e75;
+  }
+  .math
+  {
+      /*background-color:#eee8d5;*/
+      color:#586e75;
+      font-family:Times New Roman;
+  }
+  /*use a contextual style to undo the blue-ness:*/
+  .math em
+  {
+      color:#586e75;
+  	font-weight:normal;
+  }
+  .descrip
+  {
+  	max-width:500pt;
+  	padding-left:25pt;
+  	text-align:justify;
+  }
+  .descripbig
+  {
+  	max-width:575pt;
+  	padding-left:0pt;
+  	text-align:justify;
+  }
+  .emph
+  {
+  	color:#d33682;
+  	font-weight:bolder;
+  }
+  .litem
+  {
+  	color:#268bd2;
+  	font-style:italic;
+  	font-weight:bolder;
+  }
+  .hl
+  {
+  	color:#268bd2;
+  	font-style:italic;
+  }
+  .required
+  {
+  	color:#268bd2;
+  	font-style:italic;
+  	font-weight:bold;
+  }
+  .inputbox
+  {
+  	background-color:#eee8d5;
+  	color:#586e75;
+  	font-family:Gill Sans MT;
+  	font-weight:bolder;
+  }
+  </style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">212 Project 6 – Graph Basics</h1>
+</div>
+<h2 id="due-friday-may-13th-1159pm"><em>Due:</em> Friday, May 13th @ 11:59pm</h2>
+<h2 id="synopsis">Synopsis</h2>
+<p>Implement a graph data structure that provides a few elementary algorithms.</p>
+<h2 id="important-notes-on-grading">Important Notes on Grading</h2>
+<p>I would like you all to collaborate on these projects in small teams. Teams <strong>must have 3 – 4 people</strong>. As usual:</p>
+<ul>
+<li>Everyone should be signed up on <a href="https://bitbucket.org/">bitbucket</a>.</li>
+<li>Designate one member of your team to be the leader / repository owner. (They’ll set up the repository and grant access to the rest of the team.)</li>
+<li>Commits from the team members can be incorporated in one of two ways:
+<ol style="list-style-type: decimal">
+<li>Follow the instructions on <a href="http://www-cs.ccny.cuny.edu/~wes/CSC212S16/scm.html#collaborate">collaborating with git</a>. (Team leaders: don’t forget to give other members write access to the repository.)</li>
+<li>Use bitbucket’s fork + pull request features.</li>
+</ol></li>
+<li>Team leaders – please <em>edit</em> (or start, if it doesn’t exist) a piazza post containing the url of your repository, and a list of the team’s members.</li>
+<li>I’ll grade the projects based on whether or not they pass the automated tests, and whether or not each team member is contributing (as evidenced by the commit logs).</li>
+</ul>
+<h2 id="details">Details</h2>
+<p>You’ve seen enough examples by now that it is time for you to play more of a role in the design. The skeleton is almost empty this time around. There is a command line interface described in <code>main.cpp</code> which you are to implement, but almost all of the details are left to you. Regarding the interface, please read the comments in the skeleton, in particular, anywhere where it says ‘NOTE’. A high-level list of tasks:</p>
+<ul>
+<li>Implement breadth-first search;</li>
+<li>Implement depth-first search;</li>
+<li>Find shortest paths;</li>
+<li>Determine the number of strongly connected components in a graph;</li>
+</ul>
+<p>You will also need to write the graph in dot format (<a href="http://www.graphviz.org/Download.php">graphviz</a>). Moreover, the dot file should (depending on the context):</p>
+<ul>
+<li>label nodes by “discovery time” and “finish time” and highlight “tree edges” when running a depth-first search;</li>
+<li>highlight a shortest path between given vertexes;</li>
+<li>highlight strongly connected components in different colors;</li>
+</ul>
+<p>Refer to the <a href="#appendix-highlighting-graph-features">appendix</a> regarding the highlighting.</p>
+<h3 id="graph-input-format">Graph input format</h3>
+<p>Each line of input will contain two integers, and represents an edge from the first to the second. For example, if a file contains</p>
+<pre><code>0 2
+0 3
+3 1
+1 0
+2 3
+1 2</code></pre>
+<p>then the graph would be:</p>
+<p><img src="g2.svg" alt="g2" /><br />
+<em>NOTE:</em> directed and undirected graphs will have the same format. See the <code>--undir</code> switch in <code>main.cpp</code>.</p>
+<h3 id="compiling-testing-debugging">Compiling, testing, debugging</h3>
+<p>Please make sure that your program compiles with the makefile that I provided. For testing and debugging, you’re pretty much on your own, but to facilitate, I have provided a program that creates random graphs that usually have “interesting” strongly connected components (most <a href="https://en.wikipedia.org/wiki/Random_graph">random graph models</a> produce graphs that have one very large SCC, or that have each node in its own SCC). Running <code>make</code> should build the <code>randgraph</code> program, which will output random graphs in an edge list representation (as above) which your program can read. (<em>NOTE:</em> It uses different procedures for generating directed vs undirected graphs, but either way, just outputs an edge list.) Run <code>./randgraph -h</code> to see the help string.</p>
+<h3 id="hints-notes-ground-rules">Hints, notes, ground rules</h3>
+<p>You can use STL data structures, but don’t use any external libraries that trivialize the problem. An adjacency list is probably a good approach.</p>
+<p>Don’t waste too much time on this aspect of the project, but if you want to tweak the way things look, a few resources:</p>
+<ul>
+<li><a href="http://www.graphviz.org/doc/info/attrs.html">Attributes for nodes and edges</a></li>
+<li><a href="http://www.graphviz.org/doc/info/colors.html">List of color names</a></li>
+</ul>
+<h2 id="submission-procedure">Submission Procedure</h2>
+<ol style="list-style-type: decimal">
+<li>Make sure your group is listed on Piazza before the deadline.</li>
+<li>Make sure you have a working makefile that builds your program. (If you added other files, you might need adjust the one I gave you, although it will do the right thing for most simple cases.)</li>
+</ol>
+<h2 id="appendix-highlighting-graph-features">Appendix – Highlighting Graph Features</h2>
+<p>Here are some examples of the coloring / highlighting. In case you don’t want to read the <a href="http://www.graphviz.org/doc/info/lang.html">dot language specification</a>, you can learn via example by reading the graphs in the <code>doc/</code> directory, which correspond to those below.</p>
+<div class="figure">
+<img src="g1.svg" alt="Graph g1.dot, with strongly connected components highlighted." />
+<p class="caption">Graph <code>g1.dot</code>, with strongly connected components highlighted.</p>
+</div>
+<div class="figure">
+<img src="g3.svg" alt="Graph g3.dot, with a shortest path from 0–14 highlighted." />
+<p class="caption">Graph <code>g3.dot</code>, with a shortest path from 0–14 highlighted.</p>
+</div>
+<div class="figure">
+<img src="g4.svg" alt="Graph g4.dot, showing tree edges for DFS." />
+<p class="caption">Graph <code>g4.dot</code>, showing “tree edges” for DFS.</p>
+</div>
+<div class="figure">
+<img src="g5.svg" alt="Graph g5.dot, showing tree edges and start/finish times for DFS." />
+<p class="caption">Graph <code>g5.dot</code>, showing “tree edges” and start/finish times for DFS.</p>
+</div>
+<!--  links  -->
+</body>
+</html>
